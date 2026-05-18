@@ -6,11 +6,12 @@ import type { Proxy } from '../types';
 interface ConnectionStore {
   apiBase: string;
   apiSecret: string;
+  configLabel: string;
   status: 'idle' | 'connecting' | 'connected' | 'error';
   errorMsg: string;
   proxies: Proxy[];
   api: ClashAPI | null;
-  setConfig: (base: string, secret: string) => void;
+  setConfig: (base: string, secret: string, label: string) => void;
   connect: () => Promise<void>;
   disconnect: () => void;
 }
@@ -20,13 +21,14 @@ export const useConnectionStore = create<ConnectionStore>()(
     (set, get) => ({
       apiBase: 'http://127.0.0.1:9090',
       apiSecret: '',
+      configLabel: '',
       status: 'idle',
       errorMsg: '',
       proxies: [],
       api: null,
 
-      setConfig(base, secret) {
-        set({ apiBase: base, apiSecret: secret, status: 'idle', errorMsg: '' });
+      setConfig(base, secret, label) {
+        set({ apiBase: base, apiSecret: secret, configLabel: label, status: 'idle', errorMsg: '' });
       },
 
       async connect() {
@@ -52,7 +54,11 @@ export const useConnectionStore = create<ConnectionStore>()(
     }),
     {
       name: 'clash-bench-connection',
-      partialize: (state) => ({ apiBase: state.apiBase, apiSecret: state.apiSecret }),
+      partialize: (state) => ({
+        apiBase: state.apiBase,
+        apiSecret: state.apiSecret,
+        configLabel: state.configLabel,
+      }),
     }
   )
 );

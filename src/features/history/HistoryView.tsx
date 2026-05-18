@@ -55,6 +55,11 @@ export function HistoryView() {
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-ff-1 font-medium truncate">{r.proxyName}</span>
                   <span className="text-xs text-ff-4 font-mono flex-shrink-0">{r.proxyType}</span>
+                  {r.configLabel && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-brand/8 text-brand border border-brand/20 flex-shrink-0">
+                      {r.configLabel}
+                    </span>
+                  )}
                 </div>
                 <div className="text-xs text-ff-4 mt-0.5">
                   {fmtDate(r.startedAt)} · {fmtDuration(r.durationMs)} · avg {fmtMs(stats.avg)}

@@ -33,6 +33,7 @@ export interface ScoreOutput {
 export interface BenchResult {
   proxyName: string;
   proxyType: string;
+  configLabel?: string;
   startedAt: number;
   durationMs: number;
   samples: DelaySample[];

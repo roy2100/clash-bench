@@ -19,7 +19,7 @@ export interface LiveData {
 }
 
 export function useSingleBench() {
-  const { api } = useConnectionStore();
+  const { api, configLabel } = useConnectionStore();
   const { config } = useModeStore();
   const { add } = useHistoryStore();
 
@@ -78,8 +78,9 @@ export function useSingleBench() {
         setLiveData(prev => ({ ...prev, phaseProgress: { ...phaseProgress } }));
       },
       onComplete(benchResult) {
-        add(benchResult);
-        setResult(benchResult);
+        const labeled = configLabel ? { ...benchResult, configLabel } : benchResult;
+        add(labeled);
+        setResult(labeled);
         setStage('result');
       },
     });

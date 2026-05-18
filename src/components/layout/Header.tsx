@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useConnectionStore } from '../../store/connectionStore';
 
 export function Header() {
-  const { apiBase, apiSecret, status, errorMsg, setConfig, connect, disconnect } = useConnectionStore();
+  const { apiBase, apiSecret, configLabel, status, errorMsg, setConfig, connect, disconnect } = useConnectionStore();
   const [showConfig, setShowConfig] = useState(false);
   const [localBase, setLocalBase] = useState(apiBase);
   const [localSecret, setLocalSecret] = useState(apiSecret);
+  const [localLabel, setLocalLabel] = useState(configLabel);
 
   const statusDot: Record<string, string> = {
     idle: 'bg-ff-4',
@@ -22,7 +23,7 @@ export function Header() {
   };
 
   const handleConnect = () => {
-    setConfig(localBase, localSecret);
+    setConfig(localBase, localSecret, localLabel);
     connect();
     setShowConfig(false);
   };
@@ -50,7 +51,12 @@ export function Header() {
           <span className={`inline-block w-1.5 h-1.5 rounded-full ${statusDot[status]}`} />
           <span className="text-xs text-ff-3">{statusLabels[status]}</span>
           {status === 'connected' && (
-            <span className="text-xs text-ff-4 font-mono truncate max-w-32">{apiBase}</span>
+            <>
+              {configLabel && (
+                <span className="text-xs text-ff-2 font-medium">{configLabel}</span>
+              )}
+              <span className="text-xs text-ff-4 font-mono truncate max-w-32">{apiBase}</span>
+            </>
           )}
         </button>
 
@@ -94,6 +100,16 @@ export function Header() {
                 onChange={e => setLocalSecret(e.target.value)}
                 className="w-full bg-fn-1 border border-fs-1 rounded px-3 py-1.5 text-sm text-ff-1 font-mono outline-none focus:border-brand transition-colors"
                 placeholder="API Secret"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-ff-3 mb-1 block">配置名称（可选）</label>
+              <input
+                type="text"
+                value={localLabel}
+                onChange={e => setLocalLabel(e.target.value)}
+                className="w-full bg-fn-1 border border-fs-1 rounded px-3 py-1.5 text-sm text-ff-1 outline-none focus:border-brand transition-colors"
+                placeholder="机场A、自建节点…"
               />
             </div>
 

@@ -14,7 +14,7 @@ export interface MultiRunState {
 }
 
 export function useMultiBench() {
-  const { api, proxies } = useConnectionStore();
+  const { api, proxies, configLabel } = useConnectionStore();
   const { config } = useModeStore();
   const { add } = useHistoryStore();
 
@@ -41,7 +41,8 @@ export function useMultiBench() {
 
       const multiConfig = { ...config, phase1Rounds: 10, phase1IntervalMs: 500, phase2Rounds: 10, phase2IntervalMs: 1000 };
 
-      const result = await new BenchRunner(api, proxyName, proxyType, multiConfig).run();
+      const raw = await new BenchRunner(api, proxyName, proxyType, multiConfig).run();
+      const result = configLabel ? { ...raw, configLabel } : raw;
       results.push(result);
       add(result);
 
