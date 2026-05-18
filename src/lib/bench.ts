@@ -70,7 +70,21 @@ export class BenchRunner {
     let throughputMbps: number | undefined;
     if (this.config.throughputEnabled && this.config.throughputUrl && !this.aborted) {
       this.events.onPhaseStart?.('throughput');
-      throughputMbps = await this.measureThroughput(this.config.throughputUrl);
+
+      const group = this.config.throughputGroupName?.trim();
+      let prevSelection: string | null = null;
+      if (group) {
+        prevSelection = await this.api.getGroupNow(group);
+        await this.api.setGroupProxy(group, this.proxyName);
+      }
+
+      try {
+        throughputMbps = await this.measureThroughput(this.config.throughputUrl);
+      } finally {
+        if (group && prevSelection) {
+          await this.api.setGroupProxy(group, prevSelection);
+        }
+      }
     }
 
     const validDelays = samples.map(s => s.delay).filter((d): d is number => d !== null);

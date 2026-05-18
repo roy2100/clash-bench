@@ -31,7 +31,7 @@ export function LatencyWaveform({ samples, maxPoints = 50 }: LatencyWaveformProp
           <XAxis dataKey="idx" hide />
           <YAxis
             domain={[0, yMax]}
-            tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
+            tick={{ fill: 'rgba(28,35,51,0.55)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
             tickFormatter={v => `${v}`}
             width={36}
           />
@@ -40,7 +40,7 @@ export function LatencyWaveform({ samples, maxPoints = 50 }: LatencyWaveformProp
               if (!active || !payload?.[0]) return null;
               const val = payload[0].value;
               return (
-                <div className="bg-[#0d1525] border border-white/10 rounded px-2 py-1 text-xs font-mono text-white">
+                <div className="bg-white border border-gray-200 rounded px-2 py-1 text-xs font-mono text-gray-900 shadow-sm">
                   {val === null ? 'timeout' : `${val} ms`}
                 </div>
               );

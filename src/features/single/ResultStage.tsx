@@ -22,7 +22,7 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
   const isAllTimeout = samples.length > 0 && valid.length === 0;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-[#050810]">
+    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-[#f5f7fa]">
       <PulseGrid grade={score.grade} active={false} />
 
       {/* Central radial burst on entry */}
@@ -52,8 +52,8 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
           transition={{ delay: 0.05 }}
           className="text-center"
         >
-          <div className="text-white/40 text-sm font-mono">{proxyName}</div>
-          <div className="text-white/20 text-xs font-mono">{proxyType}</div>
+          <div className="text-gray-500 text-sm font-mono">{proxyName}</div>
+          <div className="text-gray-400 text-xs font-mono">{proxyType}</div>
         </motion.div>
 
         {/* Hero: badge + score */}
@@ -118,7 +118,7 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.55 }}
-          className="text-[10px] text-white/20 font-mono"
+          className="text-[10px] text-gray-400 font-mono"
         >
           {samples.length} 样本 · {fmtDuration(result.durationMs)} · {new Date(result.startedAt).toLocaleString()}
         </motion.div>
@@ -144,7 +144,7 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
           </button>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 font-mono text-sm text-white/30 hover:text-white/60 border border-white/[0.08] hover:border-white/20 rounded-xl transition-all duration-200"
+            className="px-6 py-3 font-mono text-sm text-gray-400 hover:text-gray-700 border border-gray-200 hover:border-gray-300 rounded-xl transition-all duration-200"
           >
             返回首页
           </button>
@@ -170,10 +170,10 @@ function SubScoreCard({
       className="rounded-xl p-3 flex flex-col gap-1"
       style={{ background: `${color}08`, border: `1px solid ${color}18` }}
     >
-      <div className="text-[10px] text-white/30 font-mono uppercase tracking-wider">{label}</div>
-      <div className="text-lg font-mono font-bold text-white">
+      <div className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{label}</div>
+      <div className="text-lg font-mono font-bold text-gray-900">
         {value}
-        {unit && <span className="text-xs text-white/30 ml-1">{unit}</span>}
+        {unit && <span className="text-xs text-gray-400 ml-1">{unit}</span>}
       </div>
     </div>
   );
@@ -182,8 +182,8 @@ function SubScoreCard({
 function StatItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <div className="text-[10px] text-white/30 font-mono uppercase tracking-wider">{label}</div>
-      <div className="text-sm font-mono text-white/80">{value}</div>
+      <div className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{label}</div>
+      <div className="text-sm font-mono text-gray-700">{value}</div>
     </div>
   );
 }

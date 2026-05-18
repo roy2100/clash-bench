@@ -10,7 +10,7 @@ export function MultiRunView() {
 
   if (status !== 'connected') {
     return (
-      <div className="flex items-center justify-center h-full text-white/40 font-mono text-sm">
+      <div className="flex items-center justify-center h-full text-gray-400 font-mono text-sm">
         请先连接 Mihomo 控制器
       </div>
     );
@@ -25,8 +25,8 @@ export function MultiRunView() {
     <div className="h-full flex">
       {/* Left: proxy picker (only in idle) */}
       {state.status === 'idle' && (
-        <div className="w-72 flex-shrink-0 p-6 border-r border-white/[0.04] flex flex-col">
-          <div className="text-xs font-mono text-white/30 uppercase tracking-wider mb-3">
+        <div className="w-72 flex-shrink-0 p-6 border-r border-gray-300 flex flex-col">
+          <div className="text-xs font-mono text-gray-500 uppercase tracking-wider mb-3">
             选择节点（多选）
           </div>
           <div className="flex-1">
@@ -45,9 +45,9 @@ export function MultiRunView() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-lg font-mono font-bold text-white">Multi Run</div>
+            <div className="text-lg font-mono font-bold text-gray-900">Multi Run</div>
             {state.status === 'running' && (
-              <div className="text-xs text-white/40 font-mono">
+              <div className="text-xs text-gray-400 font-mono">
                 节点 {state.currentIdx + 1}/{state.totalProxies} · 当前: {state.currentProxy}
               </div>
             )}
@@ -63,7 +63,7 @@ export function MultiRunView() {
               <button
                 onClick={start}
                 disabled={selectedProxies.length === 0}
-                className="px-6 py-2 font-mono text-sm font-bold text-white bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 rounded-lg disabled:opacity-30 transition-colors"
+                className="px-6 py-2 font-mono text-sm font-bold text-cyan-700 bg-cyan-600/10 hover:bg-cyan-600/15 border border-cyan-600/40 rounded-lg disabled:opacity-30 transition-colors"
               >
                 开始测试 ({selectedProxies.length} 节点)
               </button>
@@ -80,13 +80,13 @@ export function MultiRunView() {
               <>
                 <button
                   onClick={() => downloadCSV(exportCSV(state.results))}
-                  className="px-4 py-2 font-mono text-sm text-white/60 hover:text-white border border-white/10 hover:border-white/20 rounded-lg transition-colors"
+                  className="px-4 py-2 font-mono text-sm text-gray-500 hover:text-gray-900 border border-gray-200 hover:border-gray-300 rounded-lg transition-colors"
                 >
                   导出 CSV
                 </button>
                 <button
                   onClick={reset}
-                  className="px-4 py-2 font-mono text-sm text-cyan-400 border border-cyan-500/30 hover:border-cyan-400/50 rounded-lg transition-colors"
+                  className="px-4 py-2 font-mono text-sm text-cyan-700 border border-cyan-600/30 hover:border-cyan-600/50 rounded-lg transition-colors"
                 >
                   再来一次
                 </button>
@@ -97,9 +97,9 @@ export function MultiRunView() {
 
         {/* Progress bar */}
         {state.status === 'running' && (
-          <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-cyan-400 rounded-full transition-all duration-500"
+              className="h-full bg-cyan-600 rounded-full transition-all duration-500"
               style={{ width: `${(state.currentIdx / state.totalProxies) * 100}%` }}
             />
           </div>
@@ -117,12 +117,12 @@ export function MultiRunView() {
         )}
 
         {state.status === 'idle' && selectedProxies.length === 0 && (
-          <div className="flex-1 flex items-center justify-center text-white/20 font-mono text-sm">
+          <div className="flex-1 flex items-center justify-center text-gray-300 font-mono text-sm">
             从左侧选择节点后点击开始
           </div>
         )}
         {state.status === 'idle' && selectedProxies.length > 0 && (
-          <div className="flex-1 flex items-center justify-center text-white/30 font-mono text-sm">
+          <div className="flex-1 flex items-center justify-center text-gray-400 font-mono text-sm">
             已选 {selectedProxies.length} 个节点，每节点约 20 秒
           </div>
         )}

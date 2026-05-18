@@ -11,22 +11,22 @@ export function ModeSwitcher() {
   const { mode, setMode } = useModeStore();
 
   return (
-    <div className="flex gap-1 p-1 bg-white/[0.03] rounded-xl border border-white/[0.04]">
+    <div className="flex gap-1 p-1 bg-gray-100 rounded-xl border border-gray-300">
       {MODES.map(m => (
         <button
           key={m.key}
           onClick={() => setMode(m.key)}
           className={`relative flex flex-col items-center px-5 py-2 rounded-lg transition-all duration-200 ${
             mode === m.key
-              ? 'bg-white/[0.08] text-white shadow-inner'
-              : 'text-white/40 hover:text-white/60'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'text-gray-500 hover:text-gray-700'
           }`}
         >
           {mode === m.key && (
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-cyan-500/10 to-transparent" />
+            <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-cyan-600/8 to-transparent" />
           )}
           <span className="relative text-sm font-mono font-bold tracking-wide">{m.label}</span>
-          <span className="relative text-xs text-white/30 mt-0.5">{m.desc}</span>
+          <span className="relative text-xs text-gray-500 mt-0.5">{m.desc}</span>
         </button>
       ))}
     </div>

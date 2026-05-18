@@ -49,9 +49,12 @@ export interface BenchConfig {
   phase2IntervalMs: number;
   throughputEnabled: boolean;
   throughputUrl?: string;
+  throughputGroupName?: string;
 }
 
 export type AppMode = 'single' | 'multi' | 'stress';
+
+export const DEFAULT_THROUGHPUT_URL = 'https://speed.cloudflare.com/__down?bytes=10000000';
 
 export const DEFAULT_BENCH_CONFIG: BenchConfig = {
   testUrl: 'https://www.gstatic.com/generate_204',
@@ -61,6 +64,7 @@ export const DEFAULT_BENCH_CONFIG: BenchConfig = {
   phase2Rounds: 30,
   phase2IntervalMs: 1000,
   throughputEnabled: false,
+  throughputUrl: DEFAULT_THROUGHPUT_URL,
 };
 
 export const GRADE_COLORS: Record<Grade, string> = {

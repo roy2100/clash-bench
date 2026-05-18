@@ -18,6 +18,17 @@ export const useModeStore = create<ModeStore>()(
       setMode: (mode) => set({ mode }),
       updateConfig: (patch) => set((s) => ({ config: { ...s.config, ...patch } })),
     }),
-    { name: 'clash-bench-mode' }
+    {
+      name: 'clash-bench-mode',
+      // 深度合并：localStorage 里缺失的新字段从 DEFAULT_BENCH_CONFIG 补全
+      merge: (persisted, current) => ({
+        ...current,
+        ...(persisted as Partial<ModeStore>),
+        config: {
+          ...DEFAULT_BENCH_CONFIG,
+          ...((persisted as Partial<ModeStore>).config ?? {}),
+        },
+      }),
+    }
   )
 );

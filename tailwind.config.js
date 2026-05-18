@@ -9,10 +9,10 @@ export default {
       },
       colors: {
         bg: {
-          primary: '#050810',
-          secondary: '#0a0f1a',
-          card: '#0d1525',
-          border: 'rgba(255,255,255,0.04)',
+          primary: '#f5f7fa',
+          secondary: '#eef1f6',
+          card: '#ffffff',
+          border: 'rgba(0,0,0,0.08)',
         },
         grade: {
           S: '#00d4ff',

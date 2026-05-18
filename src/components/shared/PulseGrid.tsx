@@ -57,7 +57,7 @@ export function PulseGrid({ grade, active = true }: PulseGridProps) {
                      + 0.3 * Math.sin(col * 0.6 - t * 0.9) * Math.cos(row * 0.5 + t * 0.7);
           const norm = (wave / 1.3 + 1) * 0.5;
 
-          const gridAlpha = norm * 0.18;
+          const gridAlpha = norm * 0.10;
           ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${gridAlpha})`;
           ctx.lineWidth = 0.6;
           ctx.beginPath();
@@ -92,7 +92,7 @@ export function PulseGrid({ grade, active = true }: PulseGridProps) {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: active ? 1 : 0.35 }}
+      style={{ opacity: active ? 0.55 : 0.2 }}
     />
   );
 }

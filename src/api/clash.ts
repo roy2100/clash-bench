@@ -31,6 +31,25 @@ export class ClashAPI {
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  async getGroupNow(groupName: string): Promise<string | null> {
+    try {
+      const res = await fetch(`${this.base}/proxies/${encodeURIComponent(groupName)}`, { headers: this.headers() });
+      if (!res.ok) return null;
+      const data = await res.json() as { now?: string };
+      return data.now ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  async setGroupProxy(groupName: string, proxyName: string): Promise<void> {
+    await fetch(`${this.base}/proxies/${encodeURIComponent(groupName)}`, {
+      method: 'PUT',
+      headers: this.headers(),
+      body: JSON.stringify({ name: proxyName }),
+    });
+  }
+
   async testDelay(proxyName: string, url: string, timeoutMs: number): Promise<number | null> {
     try {
       const params = new URLSearchParams({ url, timeout: String(timeoutMs) });

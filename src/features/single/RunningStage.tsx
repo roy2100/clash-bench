@@ -30,7 +30,7 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
   const gradeColor = GRADE_COLORS[liveGrade];
 
   return (
-    <div className="relative w-full h-full flex overflow-hidden bg-[#050810]">
+    <div className="relative w-full h-full flex overflow-hidden bg-[#f5f7fa]">
       {/* Animated background grid */}
       <PulseGrid grade={liveGrade} active />
 
@@ -45,10 +45,10 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
 
       <div className="relative z-10 flex w-full h-full">
         {/* ── Left panel ── */}
-        <div className="w-60 flex-shrink-0 flex flex-col gap-5 p-6 border-r border-white/[0.04] bg-[#050810]/60 backdrop-blur-sm">
+        <div className="w-60 flex-shrink-0 flex flex-col gap-5 p-6 border-r border-gray-300 bg-white/70 backdrop-blur-sm">
           <div>
-            <div className="text-[10px] text-white/25 font-mono uppercase tracking-widest mb-1">节点</div>
-            <div className="text-sm font-mono text-white/70 truncate" title={proxyName}>{proxyName}</div>
+            <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-1">节点</div>
+            <div className="text-sm font-mono text-gray-700 truncate" title={proxyName}>{proxyName}</div>
           </div>
 
           <PhaseList
@@ -61,10 +61,10 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
             {/* Overall progress */}
             <div>
               <div className="flex justify-between text-[10px] font-mono mb-1.5">
-                <span className="text-white/25">总进度</span>
-                <span className="text-white/50">{overallPct}%</span>
+                <span className="text-gray-500">总进度</span>
+                <span className="text-gray-600">{overallPct}%</span>
               </div>
-              <div className="h-0.5 bg-white/[0.08] rounded-full overflow-hidden">
+              <div className="h-0.5 bg-gray-200 rounded-full overflow-hidden">
                 <motion.div
                   className="h-full rounded-full"
                   style={{ background: gradeColor }}
@@ -93,8 +93,7 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
             className="flex flex-col items-center gap-3"
           >
             <div
-              className="text-[10px] font-mono uppercase tracking-[0.3em]"
-              style={{ color: `${gradeColor}70` }}
+              className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-500"
             >
               实时得分
             </div>
@@ -108,17 +107,14 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
             transition={{ delay: 0.2 }}
             className="w-full max-w-xl"
           >
-            <div
-              className="text-[10px] font-mono uppercase tracking-widest mb-2"
-              style={{ color: `${gradeColor}50` }}
-            >
+            <div className="text-[10px] font-mono uppercase tracking-widest mb-2 text-gray-500">
               延迟波形
             </div>
             <div
               className="h-36 rounded-xl overflow-hidden"
               style={{
-                background: 'rgba(0,0,0,0.4)',
-                border: `1px solid ${gradeColor}18`,
+                background: 'rgba(255,255,255,0.7)',
+                border: `1px solid ${gradeColor}40`,
                 boxShadow: `0 0 20px ${gradeColor}08`,
               }}
             >
@@ -134,7 +130,7 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ duration: 0.8, repeat: Infinity }}
             />
-            <span className="text-[10px] font-mono text-white/25">
+            <span className="text-[10px] font-mono text-gray-400">
               {samples.length} 个样本 · 当前阶段{' '}
               <span style={{ color: gradeColor }}>
                 {currentPhase === 'burst' ? 'LATENCY BURST' : currentPhase === 'hold' ? 'STABILITY HOLD' : currentPhase === 'throughput' ? 'THROUGHPUT' : '—'}
@@ -144,10 +140,9 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
         </div>
 
         {/* ── Right panel: live metrics ── */}
-        <div className="w-52 flex-shrink-0 flex flex-col gap-4 p-6 border-l border-white/[0.04] bg-[#050810]/60 backdrop-blur-sm">
+        <div className="w-52 flex-shrink-0 flex flex-col gap-4 p-6 border-l border-gray-300 bg-white/70 backdrop-blur-sm">
           <div
-            className="text-[10px] font-mono uppercase tracking-widest"
-            style={{ color: `${gradeColor}60` }}
+            className="text-[10px] font-mono uppercase tracking-widest text-gray-500"
           >
             实时指标
           </div>
@@ -163,8 +158,8 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
           <LiveMetric label="样本数" value={`${samples.length}`} />
 
           {/* Grade preview */}
-          <div className="mt-auto pt-4 border-t border-white/[0.04]">
-            <div className="text-[10px] font-mono text-white/25 uppercase tracking-wider mb-2">当前等级</div>
+          <div className="mt-auto pt-4 border-t border-gray-300">
+            <div className="text-[10px] font-mono text-gray-500 uppercase tracking-wider mb-2">当前等级</div>
             <div
               className="text-3xl font-mono font-bold"
               style={{
@@ -195,10 +190,10 @@ function LiveMetric({
 }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <div className="text-[10px] text-white/25 font-mono uppercase tracking-wider">{label}</div>
+      <div className="text-[10px] text-gray-500 font-mono uppercase tracking-wider">{label}</div>
       <div
         className="text-base font-mono font-semibold"
-        style={{ color: valueColor ?? 'rgba(255,255,255,0.75)' }}
+        style={{ color: valueColor ?? '#374151' }}
       >
         {value}
       </div>

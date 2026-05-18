@@ -38,10 +38,10 @@ export function PhaseList({ currentPhase, phaseProgress, throughputEnabled = fal
             layout
             className={`relative flex items-center gap-3 rounded-lg px-4 py-3 border transition-all duration-300 ${
               isActive
-                ? 'border-white/20 bg-white/5'
+                ? 'border-gray-400 bg-gray-100'
                 : isDone
-                ? 'border-white/10 bg-white/[0.02]'
-                : 'border-white/5 bg-transparent opacity-40'
+                ? 'border-gray-300 bg-gray-50'
+                : 'border-gray-200 bg-transparent opacity-40'
             }`}
           >
             {isActive && (
@@ -54,12 +54,12 @@ export function PhaseList({ currentPhase, phaseProgress, throughputEnabled = fal
             )}
 
             <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-              isActive ? 'bg-cyan-400 shadow-[0_0_8px_#00d4ff]' :
-              isDone ? 'bg-green-400' : 'bg-white/20'
+              isActive ? 'bg-cyan-500 shadow-[0_0_8px_#00b4d8]' :
+              isDone ? 'bg-green-500' : 'bg-gray-300'
             }`}>
               {isActive && (
                 <motion.div
-                  className="w-2 h-2 rounded-full bg-cyan-400"
+                  className="w-2 h-2 rounded-full bg-cyan-500"
                   animate={{ scale: [1, 1.8, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 />
@@ -69,23 +69,23 @@ export function PhaseList({ currentPhase, phaseProgress, throughputEnabled = fal
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
                 <span className={`text-xs font-mono uppercase tracking-wider ${
-                  isActive ? 'text-cyan-400' : isPending ? 'text-white/30' : 'text-white/50'
+                  isActive ? 'text-cyan-700' : isPending ? 'text-gray-500' : 'text-gray-600'
                 }`}>
                   {phase.label}
                 </span>
                 {progress && (
-                  <span className="text-xs font-mono text-white/40">
+                  <span className="text-xs font-mono text-gray-500">
                     {progress.current}/{progress.total}
                   </span>
                 )}
               </div>
-              <div className={`text-sm font-sans ${isActive ? 'text-white/80' : 'text-white/40'}`}>
+              <div className={`text-sm font-sans ${isActive ? 'text-gray-700' : 'text-gray-500'}`}>
                 {phase.desc}
               </div>
               {progress && (
-                <div className="mt-1.5 h-0.5 bg-white/10 rounded-full overflow-hidden">
+                <div className="mt-1.5 h-0.5 bg-gray-200 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-cyan-400 rounded-full"
+                    className="h-full bg-cyan-600 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${(progress.current / progress.total) * 100}%` }}
                     transition={{ duration: 0.3 }}

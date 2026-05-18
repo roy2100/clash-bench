@@ -15,10 +15,10 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('bench');
 
   return (
-    <div className="h-screen flex flex-col bg-[#050810] text-white overflow-hidden">
+    <div className="h-screen flex flex-col bg-[#f5f7fa] text-gray-900 overflow-hidden">
       <Header />
 
-      <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.04]">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-gray-300">
         <ModeSwitcher />
         <div className="flex gap-1">
           <TabBtn label="跑分" active={tab === 'bench'} onClick={() => setTab('bench')} />
@@ -46,7 +46,7 @@ function TabBtn({ label, active, onClick }: { label: string; active: boolean; on
     <button
       onClick={onClick}
       className={`px-4 py-1.5 text-sm font-mono rounded-lg transition-colors ${
-        active ? 'bg-white/[0.08] text-white' : 'text-white/30 hover:text-white/50'
+        active ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'
       }`}
     >
       {label}

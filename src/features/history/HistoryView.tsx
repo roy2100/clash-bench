@@ -10,8 +10,8 @@ export function HistoryView() {
   if (records.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-        <div className="text-white/20 font-mono text-sm">暂无历史记录</div>
-        <div className="text-white/10 text-xs font-sans">完成跑分后自动保存</div>
+        <div className="text-gray-300 font-mono text-sm">暂无历史记录</div>
+        <div className="text-gray-300 text-xs font-sans">完成跑分后自动保存</div>
       </div>
     );
   }
@@ -19,13 +19,13 @@ export function HistoryView() {
   return (
     <div className="flex flex-col h-full p-6 gap-4">
       <div className="flex items-center justify-between">
-        <div className="text-xs font-mono text-white/30">
+        <div className="text-xs font-mono text-gray-500">
           {records.length} 条记录（最多保留 100 条）
         </div>
         <div className="flex gap-2">
           <button
             onClick={exportAndDownload}
-            className="px-3 py-1.5 text-xs font-mono text-white/50 hover:text-white border border-white/10 hover:border-white/20 rounded transition-colors"
+            className="px-3 py-1.5 text-xs font-mono text-gray-500 hover:text-gray-900 border border-gray-200 hover:border-gray-300 rounded transition-colors"
           >
             导出 CSV
           </button>
@@ -54,10 +54,10 @@ export function HistoryView() {
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-mono text-white truncate">{r.proxyName}</span>
-                  <span className="text-xs text-white/30 font-mono">{r.proxyType}</span>
+                  <span className="text-sm font-mono text-gray-900 truncate">{r.proxyName}</span>
+                  <span className="text-xs text-gray-400 font-mono">{r.proxyType}</span>
                 </div>
-                <div className="text-xs text-white/30 font-mono mt-0.5">
+                <div className="text-xs text-gray-400 font-mono mt-0.5">
                   {fmtDate(r.startedAt)} · {fmtDuration(r.durationMs)} · avg {fmtMs(stats.avg)}
                 </div>
               </div>
@@ -68,7 +68,7 @@ export function HistoryView() {
 
               <button
                 onClick={() => remove(i)}
-                className="text-white/20 hover:text-red-400/60 text-sm transition-colors"
+                className="text-gray-300 hover:text-red-500 text-sm transition-colors"
               >
                 ✕
               </button>

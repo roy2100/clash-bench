@@ -42,14 +42,14 @@ export function ScoreTimeline({ points }: ScoreTimelineProps) {
       <LineChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 8 }}>
         <XAxis
           dataKey="idx"
-          tick={{ fill: 'rgba(255,255,255,0.25)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
+          tick={{ fill: 'rgba(28,35,51,0.55)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
           tickLine={false}
-          axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
-          label={{ value: '轮次', fill: 'rgba(255,255,255,0.2)', fontSize: 10, position: 'insideBottomRight', offset: -4 }}
+          axisLine={{ stroke: 'rgba(28,35,51,0.1)' }}
+          label={{ value: '轮次', fill: 'rgba(28,35,51,0.3)', fontSize: 10, position: 'insideBottomRight', offset: -4 }}
         />
         <YAxis
           domain={[yMin, yMax]}
-          tick={{ fill: 'rgba(255,255,255,0.25)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
+          tick={{ fill: 'rgba(28,35,51,0.55)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
           tickLine={false}
           axisLine={false}
           width={46}
@@ -62,9 +62,9 @@ export function ScoreTimeline({ points }: ScoreTimelineProps) {
             const grade = getGrade(score);
             const color = GRADE_COLORS[grade];
             return (
-              <div className="bg-[#0d1525] border border-white/10 rounded px-3 py-1.5 text-xs font-mono">
+              <div className="bg-white border border-gray-200 rounded px-3 py-1.5 text-xs font-mono shadow-sm">
                 <span style={{ color }}>{grade}</span>
-                <span className="text-white/60 ml-2">{score.toLocaleString()} pts</span>
+                <span className="text-gray-500 ml-2">{score.toLocaleString()} pts</span>
               </div>
             );
           }}
