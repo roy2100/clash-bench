@@ -4,25 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-`pnpm` lives at `~/.local/bin/pnpm`. Always prefix with `export PATH="$HOME/.local/bin:$PATH"` or call binaries directly via `./node_modules/.bin/`.
-
 ```bash
 # Development
-export PATH="$HOME/.local/bin:$PATH"
-pnpm dev          # Vite dev server on :5173
+npm run dev       # Vite dev server on :5173
 
 # Type checking
-./node_modules/.bin/tsc -p tsconfig.app.json --noEmit
+npx tsc -p tsconfig.app.json --noEmit
 
 # Tests (vitest, node env, src/**/*.test.ts)
-./node_modules/.bin/vitest run --config vitest.config.ts
-./node_modules/.bin/vitest run --config vitest.config.ts src/lib/scoring.test.ts  # single file
+npm test                                          # watch mode
+npx vitest run --config vitest.config.ts          # single run
+npx vitest run --config vitest.config.ts src/lib/scoring.test.ts  # single file
 
-# Production build
-./node_modules/.bin/vite build   # output → dist/
+# Production build (output → dist/)
+npm run build
 ```
-
-esbuild requires manual install after `pnpm install` (`.npmrc` sets `onlyBuiltDependencies[]=esbuild` to allow its build script).
 
 ## Architecture
 
