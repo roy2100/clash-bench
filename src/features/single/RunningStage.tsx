@@ -29,26 +29,19 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
 
   const gradeColor = GRADE_COLORS[liveGrade];
 
-  return (
-    <div className="relative w-full h-full flex overflow-hidden bg-[#f5f7fa]">
-      {/* Animated background grid */}
-      <PulseGrid grade={liveGrade} active />
+  const successRateColor =
+    successRate < 0.8 ? '#e03131' : successRate < 0.95 ? '#f5a623' : '#38b000';
 
-      {/* Radial glow behind score */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse 55% 45% at 55% 45%, ${gradeColor}12 0%, transparent 70%)`,
-          transition: 'background 1s ease',
-        }}
-      />
+  return (
+    <div className="relative w-full h-full flex overflow-hidden bg-fn-2">
+      <PulseGrid grade={liveGrade} active />
 
       <div className="relative z-10 flex w-full h-full">
         {/* ── Left panel ── */}
-        <div className="w-60 flex-shrink-0 flex flex-col gap-5 p-6 border-r border-gray-300 bg-white/70 backdrop-blur-sm">
+        <div className="w-56 flex-shrink-0 flex flex-col gap-5 p-5 border-r border-fs-1 bg-fn-1">
           <div>
-            <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-1">节点</div>
-            <div className="text-sm font-mono text-gray-700 truncate" title={proxyName}>{proxyName}</div>
+            <div className="text-[10px] text-ff-4 uppercase tracking-wider mb-1">节点</div>
+            <div className="text-sm text-ff-2 truncate font-mono" title={proxyName}>{proxyName}</div>
           </div>
 
           <PhaseList
@@ -58,16 +51,15 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
           />
 
           <div className="mt-auto space-y-4">
-            {/* Overall progress */}
             <div>
-              <div className="flex justify-between text-[10px] font-mono mb-1.5">
-                <span className="text-gray-500">总进度</span>
-                <span className="text-gray-600">{overallPct}%</span>
+              <div className="flex justify-between text-[10px] mb-1.5">
+                <span className="text-ff-4">总进度</span>
+                <span className="text-ff-3 font-mono">{overallPct}%</span>
               </div>
-              <div className="h-0.5 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-1 bg-fn-3 rounded-sm overflow-hidden">
                 <motion.div
-                  className="h-full rounded-full"
-                  style={{ background: gradeColor }}
+                  className="h-full"
+                  style={{ background: gradeColor, borderRadius: 2 }}
                   animate={{ width: `${overallPct}%` }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
                 />
@@ -76,7 +68,7 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
 
             <button
               onClick={onAbort}
-              className="w-full py-2 text-[11px] font-mono text-red-400/50 hover:text-red-400 border border-red-400/15 hover:border-red-400/35 rounded-lg transition-all duration-200"
+              className="w-full py-1.5 text-xs text-red-500/60 hover:text-red-600 border border-red-400/20 hover:border-red-400/50 rounded transition-colors"
             >
               中止测试
             </button>
@@ -85,44 +77,28 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
 
         {/* ── Center: hero score + waveform ── */}
         <div className="flex-1 flex flex-col items-center justify-center gap-6 px-6 py-8 min-w-0">
-          {/* Live score */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.92 }}
+            initial={{ opacity: 0, y: 16, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col items-center gap-3"
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center gap-2"
           >
-            <div
-              className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-500"
-            >
-              实时得分
-            </div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-ff-4">实时得分</div>
             <ScoreDisplay score={liveScore} grade={liveGrade} size="hero" animated />
           </motion.div>
 
-          {/* Waveform */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="w-full max-w-xl"
           >
-            <div className="text-[10px] font-mono uppercase tracking-widest mb-2 text-gray-500">
-              延迟波形
-            </div>
-            <div
-              className="h-36 rounded-xl overflow-hidden"
-              style={{
-                background: 'rgba(255,255,255,0.7)',
-                border: `1px solid ${gradeColor}40`,
-                boxShadow: `0 0 20px ${gradeColor}08`,
-              }}
-            >
+            <div className="text-[10px] uppercase tracking-wider mb-2 text-ff-4">延迟波形</div>
+            <div className="h-36 rounded-lg overflow-hidden bg-fn-1 border border-fs-1 shadow-f2">
               <LatencyWaveform samples={samples} />
             </div>
           </motion.div>
 
-          {/* Sample ticker */}
           <div className="flex items-center gap-2">
             <motion.div
               className="w-1.5 h-1.5 rounded-full"
@@ -130,22 +106,24 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ duration: 0.8, repeat: Infinity }}
             />
-            <span className="text-[10px] font-mono text-gray-400">
+            <span className="text-[10px] font-mono text-ff-4">
               {samples.length} 个样本 · 当前阶段{' '}
               <span style={{ color: gradeColor }}>
-                {currentPhase === 'burst' ? 'LATENCY BURST' : currentPhase === 'hold' ? 'STABILITY HOLD' : currentPhase === 'throughput' ? 'THROUGHPUT' : '—'}
+                {currentPhase === 'burst'
+                  ? 'LATENCY BURST'
+                  : currentPhase === 'hold'
+                  ? 'STABILITY HOLD'
+                  : currentPhase === 'throughput'
+                  ? 'THROUGHPUT'
+                  : '—'}
               </span>
             </span>
           </div>
         </div>
 
         {/* ── Right panel: live metrics ── */}
-        <div className="w-52 flex-shrink-0 flex flex-col gap-4 p-6 border-l border-gray-300 bg-white/70 backdrop-blur-sm">
-          <div
-            className="text-[10px] font-mono uppercase tracking-widest text-gray-500"
-          >
-            实时指标
-          </div>
+        <div className="w-48 flex-shrink-0 flex flex-col gap-4 p-5 border-l border-fs-1 bg-fn-1">
+          <div className="text-[10px] uppercase tracking-wider text-ff-4">实时指标</div>
 
           <LiveMetric label="平均延迟" value={fmtMs(stats.avg)} />
           <LiveMetric label="P95 延迟" value={fmtMs(stats.p95)} />
@@ -153,23 +131,16 @@ export function RunningStage({ proxyName, liveData, onAbort }: RunningStageProps
           <LiveMetric
             label="成功率"
             value={`${Math.round(successRate * 100)}%`}
-            valueColor={successRate < 0.8 ? '#ff4444' : successRate < 0.95 ? '#ffd740' : '#00e676'}
+            valueColor={successRateColor}
           />
           <LiveMetric label="样本数" value={`${samples.length}`} />
 
-          {/* Grade preview */}
-          <div className="mt-auto pt-4 border-t border-gray-300">
-            <div className="text-[10px] font-mono text-gray-500 uppercase tracking-wider mb-2">当前等级</div>
-            <div
-              className="text-3xl font-mono font-bold"
-              style={{
-                color: gradeColor,
-                textShadow: `0 0 20px ${gradeColor}60`,
-              }}
-            >
+          <div className="mt-auto pt-4 border-t border-fs-1">
+            <div className="text-[10px] text-ff-4 uppercase tracking-wider mb-1.5">当前等级</div>
+            <div className="text-3xl font-mono font-bold" style={{ color: gradeColor }}>
               {liveGrade}
             </div>
-            <div className="text-[10px] font-mono mt-1" style={{ color: `${gradeColor}60` }}>
+            <div className="text-[10px] font-mono mt-1 text-ff-4">
               {liveScore > 0 ? liveScore.toLocaleString() + ' pts' : '—'}
             </div>
           </div>
@@ -190,11 +161,8 @@ function LiveMetric({
 }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <div className="text-[10px] text-gray-500 font-mono uppercase tracking-wider">{label}</div>
-      <div
-        className="text-base font-mono font-semibold"
-        style={{ color: valueColor ?? '#374151' }}
-      >
+      <div className="text-[10px] text-ff-4 uppercase tracking-wider">{label}</div>
+      <div className="text-sm font-mono font-semibold" style={{ color: valueColor ?? '#242424' }}>
         {value}
       </div>
     </div>

@@ -31,7 +31,7 @@ export function LatencyWaveform({ samples, maxPoints = 50 }: LatencyWaveformProp
           <XAxis dataKey="idx" hide />
           <YAxis
             domain={[0, yMax]}
-            tick={{ fill: 'rgba(28,35,51,0.55)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
+            tick={{ fill: '#898989', fontSize: 10, fontFamily: 'Consolas, monospace' }}
             tickFormatter={v => `${v}`}
             width={36}
           />
@@ -40,21 +40,21 @@ export function LatencyWaveform({ samples, maxPoints = 50 }: LatencyWaveformProp
               if (!active || !payload?.[0]) return null;
               const val = payload[0].value;
               return (
-                <div className="bg-white border border-gray-200 rounded px-2 py-1 text-xs font-mono text-gray-900 shadow-sm">
+                <div className="bg-fn-1 border border-fs-1 rounded px-2 py-1 text-xs font-mono text-ff-1 shadow-f4">
                   {val === null ? 'timeout' : `${val} ms`}
                 </div>
               );
             }}
           />
-          <ReferenceLine y={200} stroke="rgba(255,215,64,0.15)" strokeDasharray="3 3" />
-          <ReferenceLine y={500} stroke="rgba(255,100,100,0.15)" strokeDasharray="3 3" />
+          <ReferenceLine y={200} stroke="rgba(245,166,35,0.2)"  strokeDasharray="3 3" />
+          <ReferenceLine y={500} stroke="rgba(224,49,49,0.15)"  strokeDasharray="3 3" />
           <Line
             type="monotone"
             dataKey="delay"
-            stroke="#00d4ff"
+            stroke="#0078d4"
             strokeWidth={1.5}
             dot={false}
-            activeDot={{ r: 3, fill: '#00d4ff' }}
+            activeDot={{ r: 3, fill: '#0078d4' }}
             connectNulls={false}
           />
         </LineChart>

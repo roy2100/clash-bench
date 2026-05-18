@@ -35,19 +35,19 @@ export function ProxyPicker({ proxies, selected, multiSelect = false, onChange }
           placeholder="搜索节点..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="flex-1 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-gray-500 font-sans"
+          className="flex-1 bg-fn-1 border border-fs-1 rounded px-3 py-1.5 text-sm text-ff-1 placeholder-ff-4 outline-none focus:border-brand transition-colors"
         />
         {multiSelect && (
           <div className="flex gap-1">
             <button
               onClick={selectAll}
-              className="px-2 py-1 text-xs text-gray-500 hover:text-gray-900 border border-gray-200 hover:border-gray-300 rounded transition-colors"
+              className="px-2 py-1 text-xs text-ff-3 hover:text-ff-1 border border-fs-1 hover:border-fs-2 rounded transition-colors"
             >
               全选
             </button>
             <button
               onClick={clearAll}
-              className="px-2 py-1 text-xs text-gray-500 hover:text-gray-900 border border-gray-200 hover:border-gray-300 rounded transition-colors"
+              className="px-2 py-1 text-xs text-ff-3 hover:text-ff-1 border border-fs-1 hover:border-fs-2 rounded transition-colors"
             >
               清空
             </button>
@@ -55,13 +55,13 @@ export function ProxyPicker({ proxies, selected, multiSelect = false, onChange }
         )}
       </div>
 
-      <div className="text-xs text-gray-500 font-mono">
+      <div className="text-xs text-ff-4">
         {filtered.length} 个节点{multiSelect && selected.length > 0 ? ` · 已选 ${selected.length}` : ''}
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-1 pr-1" style={{ maxHeight: 320 }}>
+      <div className="flex-1 overflow-y-auto space-y-0.5 pr-1" style={{ maxHeight: 320 }}>
         {filtered.length === 0 ? (
-          <div className="text-center py-8 text-gray-400 text-sm">无匹配节点</div>
+          <div className="text-center py-8 text-ff-4 text-sm">无匹配节点</div>
         ) : (
           filtered.map(proxy => {
             const isSelected = selected.includes(proxy.name);
@@ -69,23 +69,29 @@ export function ProxyPicker({ proxies, selected, multiSelect = false, onChange }
               <button
                 key={proxy.name}
                 onClick={() => toggle(proxy.name)}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all ${
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded text-left transition-colors ${
                   isSelected
-                    ? 'bg-cyan-600/10 border border-cyan-600/30 text-gray-900'
-                    : 'bg-transparent border border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-800'
+                    ? 'bg-brand/8 border border-brand/25 text-ff-1'
+                    : 'border border-transparent text-ff-2 hover:bg-fn-3 hover:text-ff-1'
                 }`}
               >
                 {multiSelect && (
-                  <div className={`w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center ${
-                    isSelected ? 'bg-cyan-600 border-cyan-600' : 'border-gray-300'
+                  <div className={`w-4 h-4 rounded-sm border flex-shrink-0 flex items-center justify-center transition-colors ${
+                    isSelected ? 'bg-brand border-brand' : 'border-fs-2'
                   }`}>
-                    {isSelected && <svg className="w-2.5 h-2.5 text-black" fill="currentColor" viewBox="0 0 12 12"><path d="M10 3L5 8L2 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
+                    {isSelected && (
+                      <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 12 12">
+                        <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-mono truncate">{proxy.name}</div>
+                  <div className={`text-sm truncate ${isSelected ? 'font-medium' : ''}`}>{proxy.name}</div>
                 </div>
-                <div className="text-xs text-gray-400 flex-shrink-0 font-mono">{proxy.type}</div>
+                <div className={`text-xs flex-shrink-0 font-mono ${isSelected ? 'text-brand/70' : 'text-ff-4'}`}>
+                  {proxy.type}
+                </div>
               </button>
             );
           })

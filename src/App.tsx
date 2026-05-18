@@ -15,12 +15,12 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('bench');
 
   return (
-    <div className="h-screen flex flex-col bg-[#f5f7fa] text-gray-900 overflow-hidden">
+    <div className="h-screen flex flex-col bg-fn-2 text-ff-1 overflow-hidden">
       <Header />
 
-      <div className="flex items-center justify-between px-6 py-3 border-b border-gray-300">
+      <div className="flex items-center justify-between px-6 py-0 border-b border-fs-1 bg-fn-1">
         <ModeSwitcher />
-        <div className="flex gap-1">
+        <div className="flex">
           <TabBtn label="跑分" active={tab === 'bench'} onClick={() => setTab('bench')} />
           <TabBtn label="历史" active={tab === 'history'} onClick={() => setTab('history')} />
         </div>
@@ -45,11 +45,14 @@ function TabBtn({ label, active, onClick }: { label: string; active: boolean; on
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-1.5 text-sm font-mono rounded-lg transition-colors ${
-        active ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'
+      className={`relative px-4 py-3 text-sm transition-colors ${
+        active ? 'text-brand font-semibold' : 'text-ff-3 hover:text-ff-1'
       }`}
     >
       {label}
+      {active && (
+        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand" />
+      )}
     </button>
   );
 }

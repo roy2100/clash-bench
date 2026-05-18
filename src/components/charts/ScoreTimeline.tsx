@@ -12,11 +12,11 @@ interface ScoreTimelineProps {
 }
 
 const GRADE_LINES = [
-  { y: 8000, label: 'S', color: '#00d4ff' },
-  { y: 5000, label: 'A', color: '#00e676' },
-  { y: 3000, label: 'B', color: '#a0e02c' },
-  { y: 1500, label: 'C', color: '#ffd740' },
-  { y: 500,  label: 'D', color: '#ff9800' },
+  { y: 8000, label: 'S', color: '#00b4d8' },
+  { y: 5000, label: 'A', color: '#38b000' },
+  { y: 3000, label: 'B', color: '#85bb00' },
+  { y: 1500, label: 'C', color: '#f5a623' },
+  { y: 500,  label: 'D', color: '#f76707' },
 ];
 
 export function ScoreTimeline({ points }: ScoreTimelineProps) {
@@ -25,16 +25,13 @@ export function ScoreTimeline({ points }: ScoreTimelineProps) {
   const minScore = scores.length > 0 ? Math.min(...scores) : 0;
   const maxScore = scores.length > 0 ? Math.max(...scores) : 1000;
 
-  // Smart Y domain: show at least ±20% of data range, min floor 0
   const padding = Math.max((maxScore - minScore) * 0.4, 200);
   const yMin = Math.max(0, Math.floor((minScore - padding) / 100) * 100);
   const yMax = Math.min(12000, Math.ceil((maxScore + padding) / 100) * 100);
 
-  // Color the line by average grade
   const avgScore = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
   const lineColor = GRADE_COLORS[getGrade(Math.round(avgScore))];
 
-  // Only show reference lines within the Y domain
   const visibleGradeLines = GRADE_LINES.filter(g => g.y >= yMin && g.y <= yMax);
 
   return (
@@ -42,14 +39,14 @@ export function ScoreTimeline({ points }: ScoreTimelineProps) {
       <LineChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 8 }}>
         <XAxis
           dataKey="idx"
-          tick={{ fill: 'rgba(28,35,51,0.55)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
+          tick={{ fill: '#898989', fontSize: 10, fontFamily: 'Consolas, monospace' }}
           tickLine={false}
-          axisLine={{ stroke: 'rgba(28,35,51,0.1)' }}
-          label={{ value: '轮次', fill: 'rgba(28,35,51,0.3)', fontSize: 10, position: 'insideBottomRight', offset: -4 }}
+          axisLine={{ stroke: '#e0e0e0' }}
+          label={{ value: '轮次', fill: '#898989', fontSize: 10, position: 'insideBottomRight', offset: -4 }}
         />
         <YAxis
           domain={[yMin, yMax]}
-          tick={{ fill: 'rgba(28,35,51,0.55)', fontSize: 10, fontFamily: 'JetBrains Mono' }}
+          tick={{ fill: '#898989', fontSize: 10, fontFamily: 'Consolas, monospace' }}
           tickLine={false}
           axisLine={false}
           width={46}
@@ -62,20 +59,19 @@ export function ScoreTimeline({ points }: ScoreTimelineProps) {
             const grade = getGrade(score);
             const color = GRADE_COLORS[grade];
             return (
-              <div className="bg-white border border-gray-200 rounded px-3 py-1.5 text-xs font-mono shadow-sm">
+              <div className="bg-fn-1 border border-fs-1 rounded px-3 py-1.5 text-xs font-mono shadow-f4">
                 <span style={{ color }}>{grade}</span>
-                <span className="text-gray-500 ml-2">{score.toLocaleString()} pts</span>
+                <span className="text-ff-3 ml-2">{score.toLocaleString()} pts</span>
               </div>
             );
           }}
         />
 
-        {/* Grade reference lines — only those in viewport */}
         {visibleGradeLines.map(g => (
           <ReferenceLine
             key={g.label}
             y={g.y}
-            stroke={`${g.color}30`}
+            stroke={`${g.color}28`}
             strokeDasharray="4 4"
             label={{ value: g.label, fill: g.color, fontSize: 10, position: 'insideTopRight' }}
           />
@@ -87,7 +83,7 @@ export function ScoreTimeline({ points }: ScoreTimelineProps) {
           stroke={lineColor}
           strokeWidth={2}
           dot={{ r: 3, fill: lineColor, strokeWidth: 0 }}
-          activeDot={{ r: 5, fill: lineColor, stroke: `${lineColor}40`, strokeWidth: 4 }}
+          activeDot={{ r: 4, fill: lineColor, stroke: `${lineColor}30`, strokeWidth: 4 }}
         />
       </LineChart>
     </ResponsiveContainer>

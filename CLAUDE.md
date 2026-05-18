@@ -70,3 +70,65 @@ Each mode is self-contained: a `use*Bench` hook owns all async logic and state m
 ### Type system (`src/types/index.ts`)
 
 `GRADE_COLORS` and `GRADE_LABELS` are the canonical maps — always derive colour from these, never hardcode.
+
+## Design system
+
+The UI follows **Fluent 2** visual language. When writing or modifying any component, adhere to the rules below.
+
+### Tokens (defined in `tailwind.config.js`)
+
+| Token | Purpose | Value |
+|-------|---------|-------|
+| `ff-1` | Primary text | `#242424` |
+| `ff-2` | Secondary text | `#424242` |
+| `ff-3` | Tertiary / label text | `#616161` |
+| `ff-4` | Placeholder / caption | `#898989` |
+| `fn-1` | Card / surface | `#ffffff` |
+| `fn-2` | App background | `#f5f5f5` |
+| `fn-3` | Hover fill | `#f0f0f0` |
+| `fs-1` | Default border | `#d1d1d1` |
+| `fs-2` | Active border | `#c7c7c7` |
+| `brand` | Interactive blue | `#0078d4` |
+| `brand-hover` | Button hover | `#106ebe` |
+| `brand-light` | Tint background | `#eff6fc` |
+
+Shadows: `shadow-f2` (low) → `shadow-f4` → `shadow-f8` → `shadow-f16` (popover). Never use colored or glow shadows.
+
+### Typography
+
+- **Font stack**: `"Segoe UI Variable", "Segoe UI", system-ui` (sans); `"Cascadia Code", Consolas` (mono).
+- **Weights**: `font-semibold` for headings, labels, and button text. `font-medium` for emphasis within body. Regular weight for body copy. `font-bold` only for large numeric displays (scores).
+- **Monospace** (`font-mono`): data values, proxy names, scores, timestamps. Not for section headings or UI labels.
+- **Size scale**: use Tailwind defaults (`text-xs` 12px, `text-sm` 14px, `text-base` 16px). Captions: `text-[10px]` or `text-[11px]`.
+
+### Component rules
+
+**Buttons**
+- Primary action: `bg-brand hover:bg-brand-hover text-white rounded` — no gradient, no glow.
+- Secondary / ghost: `border border-fs-1 hover:border-fs-2 text-ff-3 hover:text-ff-1 rounded`.
+- Destructive: `text-red-500/60 hover:text-red-600 border border-red-400/20 hover:border-red-400/50 rounded`.
+- Disabled: `disabled:opacity-30`.
+
+**Inputs**
+- `bg-fn-1 border border-fs-1 rounded px-3 py-1.5 text-sm text-ff-1 outline-none focus:border-brand transition-colors`.
+
+**Cards / panels**
+- `bg-fn-1 border border-fs-1 rounded-lg shadow-f2`.
+- Use `rounded-lg` (6 px) for cards, `rounded` (4 px) for controls, `rounded-xl` (8 px) only for large overlay panels (popovers, modals).
+
+**Navigation (tabs / pivot)**
+- Active tab: colored text + 2 px bottom border (`bg-brand h-0.5`). No background fill on the tab itself.
+- Inactive: `text-ff-3 hover:text-ff-1`.
+
+**Status indicators**
+- Dot indicators: small filled circle, color conveys meaning (brand = running, green-600 = done, red-500 = error).
+- Pulse animation on active dots only — no decorative pulsing.
+
+**Animations**
+- Motion serves information: progress, state transitions, data updates. No purely decorative motion.
+- Entry transitions: `opacity + y` or `opacity + scale`. Duration ≤ 300 ms. Spring for interactive elements, `ease-out` for page-level transitions.
+- No `textShadow`, `filter: drop-shadow`, or box-shadow glow on text or icons.
+
+### Grade colors
+
+Grade colors (`grade-S/A/B/C/D/F` in Tailwind, or via `GRADE_COLORS`) are the only intentional departure from neutral Fluent palette — they convey benchmark performance. Always read from `GRADE_COLORS[grade]`, never hardcode hex. Use them for text and thin borders/fills only; do not add glow effects on top.

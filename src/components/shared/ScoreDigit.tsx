@@ -38,11 +38,7 @@ export function ScoreDisplay({ score, grade, size = 'hero', animated = true }: S
     <div className="flex flex-col items-center gap-2">
       <motion.div
         className={`font-mono font-bold tabular-nums ${fontSize} select-none`}
-        style={{
-          color,
-          textShadow: `0 0 30px ${color}90, 0 0 60px ${color}50, 0 0 120px ${color}25`,
-          filter: `drop-shadow(0 0 12px ${color}80)`,
-        }}
+        style={{ color }}
         key={score}
       >
         {formattedScore}

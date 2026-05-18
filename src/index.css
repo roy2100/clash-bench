@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --s-color: #00d4ff;
-  --a-color: #00e676;
-  --b-color: #a0e02c;
-  --c-color: #ffd740;
-  --d-color: #ff9800;
-  --f-color: #ff4444;
+  --s-color: #00b4d8;
+  --a-color: #38b000;
+  --b-color: #85bb00;
+  --c-color: #f5a623;
+  --d-color: #f76707;
+  --f-color: #e03131;
 }
 
 * {
@@ -19,18 +19,18 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #f5f7fa;
-  color: #1c2333;
-  font-family: 'IBM Plex Sans', 'Inter', sans-serif;
+  background: #f5f5f5;
+  color: #242424;
+  font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
 }
 
 #root {
   height: 100%;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -39,14 +39,13 @@ html, body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
+  background: #d1d1d1;
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.22);
+  background: #c7c7c7;
 }
 
-/* Tabular numbers for score displays */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";

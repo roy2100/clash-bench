@@ -22,78 +22,63 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
   const isAllTimeout = samples.length > 0 && valid.length === 0;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-[#f5f7fa]">
+    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-fn-2">
       <PulseGrid grade={score.grade} active={false} />
 
-      {/* Central radial burst on entry */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        initial={{ opacity: 0.6 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
-        style={{
-          background: `radial-gradient(ellipse 50% 50% at 50% 45%, ${color}30 0%, transparent 65%)`,
-        }}
-      />
-
-      {/* Subtle vignette */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse 70% 60% at 50% 45%, ${color}10 0%, transparent 70%)`,
-        }}
-      />
-
-      <div className="relative z-10 flex flex-col items-center gap-8 px-8 max-w-2xl w-full">
+      <div className="relative z-10 flex flex-col items-center gap-6 px-8 max-w-2xl w-full">
         {/* Node name */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
           className="text-center"
         >
-          <div className="text-gray-500 text-sm font-mono">{proxyName}</div>
-          <div className="text-gray-400 text-xs font-mono">{proxyType}</div>
+          <div className="text-ff-2 text-sm font-semibold">{proxyName}</div>
+          <div className="text-ff-4 text-xs font-mono mt-0.5">{proxyType}</div>
         </motion.div>
 
         {/* Hero: badge + score */}
-        <div className="flex items-center gap-10">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1, duration: 0.25 }}
+          className="flex items-center gap-8"
+        >
           <GradeBadge grade={score.grade} animate size="lg" />
 
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col items-start gap-1.5">
             <ScoreDisplay score={score.total} grade={score.grade} size="hero" animated={false} />
             <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-sm font-sans"
-              style={{ color: `${color}99` }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-sm font-semibold"
+              style={{ color }}
             >
               {GRADE_LABELS[score.grade]}
             </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Sub-score cards */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-          className="w-full grid grid-cols-4 gap-3"
+          transition={{ delay: 0.3 }}
+          className="w-full grid grid-cols-4 gap-2"
         >
-          <SubScoreCard label="延迟原始分" value={score.subscores.latency.toLocaleString()} unit="pts" color={color} />
-          <SubScoreCard label="稳定系数" value={(score.subscores.stabilityFactor * 100).toFixed(1)} unit="%" color={color} />
-          <SubScoreCard label="抖动系数" value={(score.subscores.jitterFactor * 100).toFixed(1)} unit="%" color={color} />
-          <SubScoreCard label="吞吐加成" value={`×${score.subscores.throughputBonus.toFixed(2)}`} unit="" color={color} />
+          <SubScoreCard label="延迟原始分" value={score.subscores.latency.toLocaleString()} unit="pts" />
+          <SubScoreCard label="稳定系数" value={(score.subscores.stabilityFactor * 100).toFixed(1)} unit="%" />
+          <SubScoreCard label="抖动系数" value={(score.subscores.jitterFactor * 100).toFixed(1)} unit="%" />
+          <SubScoreCard label="吞吐加成" value={`×${score.subscores.throughputBonus.toFixed(2)}`} unit="" />
         </motion.div>
 
         {/* Raw stats */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45 }}
-          className="w-full rounded-xl p-4 grid grid-cols-4 gap-4"
-          style={{ background: `${color}06`, border: `1px solid ${color}18` }}
+          transition={{ delay: 0.4 }}
+          className="w-full bg-fn-1 border border-fs-1 rounded-xl p-4 grid grid-cols-4 gap-4 shadow-f2"
         >
           <StatItem label="平均延迟" value={fmtMs(stats.avg)} />
           <StatItem label="P95 延迟" value={fmtMs(stats.p95)} />
@@ -101,13 +86,12 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
           <StatItem label="成功率" value={fmtPercent(successRate)} />
         </motion.div>
 
-        {/* All timeout warning */}
         {isAllTimeout && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-xs font-mono text-red-400/70 bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-2"
+            className="text-xs font-mono text-red-600 bg-red-50 border border-red-200 rounded px-4 py-2"
           >
             ⚠ 全部样本超时——请检查节点是否可用，或增大超时阈值
           </motion.div>
@@ -117,8 +101,8 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.55 }}
-          className="text-[10px] text-gray-400 font-mono"
+          transition={{ delay: 0.5 }}
+          className="text-xs text-ff-4 font-mono"
         >
           {samples.length} 样本 · {fmtDuration(result.durationMs)} · {new Date(result.startedAt).toLocaleString()}
         </motion.div>
@@ -127,24 +111,18 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65 }}
-          className="flex gap-3"
+          transition={{ delay: 0.55 }}
+          className="flex gap-2"
         >
           <button
             onClick={onRunAgain}
-            className="px-8 py-3 font-mono text-sm font-bold uppercase tracking-wider rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{
-              background: `linear-gradient(135deg, ${color}28, ${color}12)`,
-              border: `1px solid ${color}50`,
-              color,
-              boxShadow: `0 0 24px ${color}20, inset 0 0 12px ${color}08`,
-            }}
+            className="px-6 py-2 text-sm font-semibold text-white bg-brand hover:bg-brand-hover rounded transition-colors"
           >
             再来一次
           </button>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 font-mono text-sm text-gray-400 hover:text-gray-700 border border-gray-200 hover:border-gray-300 rounded-xl transition-all duration-200"
+            className="px-5 py-2 text-sm text-ff-3 hover:text-ff-1 border border-fs-1 hover:border-fs-2 rounded transition-colors"
           >
             返回首页
           </button>
@@ -154,26 +132,13 @@ export function ResultStage({ result, onRunAgain }: ResultStageProps) {
   );
 }
 
-function SubScoreCard({
-  label,
-  value,
-  unit,
-  color,
-}: {
-  label: string;
-  value: string;
-  unit: string;
-  color: string;
-}) {
+function SubScoreCard({ label, value, unit }: { label: string; value: string; unit: string }) {
   return (
-    <div
-      className="rounded-xl p-3 flex flex-col gap-1"
-      style={{ background: `${color}08`, border: `1px solid ${color}18` }}
-    >
-      <div className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{label}</div>
-      <div className="text-lg font-mono font-bold text-gray-900">
+    <div className="bg-fn-1 border border-fs-1 rounded-lg p-3 flex flex-col gap-1 shadow-f2">
+      <div className="text-[10px] text-ff-4 uppercase tracking-wider">{label}</div>
+      <div className="text-base font-mono font-semibold text-ff-1">
         {value}
-        {unit && <span className="text-xs text-gray-400 ml-1">{unit}</span>}
+        {unit && <span className="text-xs text-ff-4 ml-1">{unit}</span>}
       </div>
     </div>
   );
@@ -182,8 +147,8 @@ function SubScoreCard({
 function StatItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <div className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{label}</div>
-      <div className="text-sm font-mono text-gray-700">{value}</div>
+      <div className="text-[10px] text-ff-4 uppercase tracking-wider">{label}</div>
+      <div className="text-sm font-mono text-ff-2">{value}</div>
     </div>
   );
 }

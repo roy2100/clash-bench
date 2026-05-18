@@ -9,9 +9,9 @@ export function HistoryView() {
 
   if (records.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-        <div className="text-gray-300 font-mono text-sm">暂无历史记录</div>
-        <div className="text-gray-300 text-xs font-sans">完成跑分后自动保存</div>
+      <div className="flex flex-col items-center justify-center h-full gap-2 text-center">
+        <div className="text-ff-3 text-sm font-semibold">暂无历史记录</div>
+        <div className="text-ff-4 text-xs">完成跑分后自动保存</div>
       </div>
     );
   }
@@ -19,26 +19,26 @@ export function HistoryView() {
   return (
     <div className="flex flex-col h-full p-6 gap-4">
       <div className="flex items-center justify-between">
-        <div className="text-xs font-mono text-gray-500">
+        <div className="text-xs text-ff-3">
           {records.length} 条记录（最多保留 100 条）
         </div>
         <div className="flex gap-2">
           <button
             onClick={exportAndDownload}
-            className="px-3 py-1.5 text-xs font-mono text-gray-500 hover:text-gray-900 border border-gray-200 hover:border-gray-300 rounded transition-colors"
+            className="px-3 py-1.5 text-xs text-ff-3 hover:text-ff-1 border border-fs-1 hover:border-fs-2 rounded transition-colors"
           >
             导出 CSV
           </button>
           <button
             onClick={clear}
-            className="px-3 py-1.5 text-xs font-mono text-red-400/50 hover:text-red-400 border border-red-400/10 hover:border-red-400/30 rounded transition-colors"
+            className="px-3 py-1.5 text-xs text-red-500/60 hover:text-red-600 border border-red-400/20 hover:border-red-400/40 rounded transition-colors"
           >
             清空
           </button>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-2">
+      <div className="flex-1 overflow-y-auto space-y-1.5">
         {records.map((r, i) => {
           const valid = r.samples.map(s => s.delay).filter((d): d is number => d !== null);
           const stats = calcStats(valid);
@@ -47,28 +47,27 @@ export function HistoryView() {
           return (
             <div
               key={`${r.startedAt}-${i}`}
-              className="flex items-center gap-4 px-4 py-3 rounded-xl border"
-              style={{ background: `${color}06`, borderColor: `${color}15` }}
+              className="flex items-center gap-4 px-4 py-3 rounded-lg border border-fs-1 bg-fn-1 shadow-f2"
             >
               <GradeBadge grade={r.score.grade} size="sm" />
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-mono text-gray-900 truncate">{r.proxyName}</span>
-                  <span className="text-xs text-gray-400 font-mono">{r.proxyType}</span>
+                  <span className="text-sm text-ff-1 font-medium truncate">{r.proxyName}</span>
+                  <span className="text-xs text-ff-4 font-mono flex-shrink-0">{r.proxyType}</span>
                 </div>
-                <div className="text-xs text-gray-400 font-mono mt-0.5">
+                <div className="text-xs text-ff-4 mt-0.5">
                   {fmtDate(r.startedAt)} · {fmtDuration(r.durationMs)} · avg {fmtMs(stats.avg)}
                 </div>
               </div>
 
-              <div className="text-xl font-mono font-bold" style={{ color }}>
+              <div className="text-lg font-mono font-semibold" style={{ color }}>
                 {r.score.total.toLocaleString()}
               </div>
 
               <button
                 onClick={() => remove(i)}
-                className="text-gray-300 hover:text-red-500 text-sm transition-colors"
+                className="text-ff-4 hover:text-red-500 text-xs transition-colors px-1"
               >
                 ✕
               </button>
