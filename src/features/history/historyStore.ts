@@ -1,43 +1,44 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import type { BenchResult } from '../../types';
 import { exportCSV, downloadCSV } from '../../lib/export';
+import { initDb, db_addResult, db_getResults, db_removeResult, db_clearResults } from '../../lib/db';
 
 interface HistoryStore {
   records: BenchResult[];
+  ready: boolean;
   add: (result: BenchResult) => void;
-  remove: (index: number) => void;
+  remove: (startedAt: number) => void;
   clear: () => void;
   exportAndDownload: () => void;
 }
 
-const MAX_RECORDS = 100;
+export const useHistoryStore = create<HistoryStore>((set, get) => {
+  initDb()
+    .then(() => set({ records: db_getResults(), ready: true }))
+    .catch((err) => console.error('SQLite init failed:', err));
 
-export const useHistoryStore = create<HistoryStore>()(
-  persist(
-    (set, get) => ({
-      records: [],
+  return {
+    records: [],
+    ready: false,
 
-      add(result) {
-        set((s) => {
-          const next = [result, ...s.records];
-          return { records: next.slice(0, MAX_RECORDS) };
-        });
-      },
+    add(result) {
+      db_addResult(result);
+      set({ records: db_getResults() });
+    },
 
-      remove(index) {
-        set((s) => ({ records: s.records.filter((_, i) => i !== index) }));
-      },
+    remove(startedAt) {
+      db_removeResult(startedAt);
+      set({ records: db_getResults() });
+    },
 
-      clear() {
-        set({ records: [] });
-      },
+    clear() {
+      db_clearResults();
+      set({ records: [] });
+    },
 
-      exportAndDownload() {
-        const csv = exportCSV(get().records);
-        downloadCSV(csv);
-      },
-    }),
-    { name: 'clash-bench-history' }
-  )
-);
+    exportAndDownload() {
+      const csv = exportCSV(get().records);
+      downloadCSV(csv);
+    },
+  };
+});

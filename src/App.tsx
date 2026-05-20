@@ -1,8 +1,9 @@
 import './index.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from './components/layout/Header';
 import { ModeSwitcher } from './components/layout/ModeSwitcher';
 import { useModeStore } from './store/modeStore';
+import { useConnectionStore } from './store/connectionStore';
 import { SingleRunView } from './features/single/SingleRunView';
 import { MultiRunView } from './features/multi/MultiRunView';
 import { StressView } from './features/stress/StressView';
@@ -13,6 +14,11 @@ type Tab = 'bench' | 'history';
 export default function App() {
   const { mode } = useModeStore();
   const [tab, setTab] = useState<Tab>('bench');
+  const { wasConnected, connect } = useConnectionStore();
+
+  useEffect(() => {
+    if (wasConnected) connect();
+  }, []);
 
   return (
     <div className="h-screen flex flex-col bg-fn-2 text-ff-1 overflow-hidden">

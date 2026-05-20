@@ -62,7 +62,7 @@ export const DEFAULT_BENCH_CONFIG: BenchConfig = {
   timeoutMs: 5000,
   phase1Rounds: 20,
   phase1IntervalMs: 500,
-  phase2Rounds: 30,
+  phase2Rounds: 50,
   phase2IntervalMs: 1000,
   throughputEnabled: false,
   throughputUrl: DEFAULT_THROUGHPUT_URL,

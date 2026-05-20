@@ -87,9 +87,10 @@ export class BenchRunner {
       }
     }
 
-    const validDelays = samples.map(s => s.delay).filter((d): d is number => d !== null);
+    const holdSamples = samples.filter(s => s.phase === 'hold');
+    const validDelays = holdSamples.map(s => s.delay).filter((d): d is number => d !== null);
     const stats = calcStats(validDelays);
-    const successRate = samples.length > 0 ? validDelays.length / samples.length : 0;
+    const successRate = holdSamples.length > 0 ? validDelays.length / holdSamples.length : 0;
 
     const score = computeScore({
       avgLatency: stats.avg ?? 9999,

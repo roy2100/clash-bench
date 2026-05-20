@@ -7,6 +7,7 @@ interface ConnectionStore {
   apiBase: string;
   apiSecret: string;
   configLabel: string;
+  wasConnected: boolean;
   status: 'idle' | 'connecting' | 'connected' | 'error';
   errorMsg: string;
   proxies: Proxy[];
@@ -22,6 +23,7 @@ export const useConnectionStore = create<ConnectionStore>()(
       apiBase: 'http://127.0.0.1:9090',
       apiSecret: '',
       configLabel: '',
+      wasConnected: false,
       status: 'idle',
       errorMsg: '',
       proxies: [],
@@ -38,18 +40,19 @@ export const useConnectionStore = create<ConnectionStore>()(
           const api = new ClashAPI(apiBase, apiSecret);
           await api.getVersion();
           const proxies = await api.getProxies();
-          set({ api, proxies, status: 'connected' });
+          set({ api, proxies, status: 'connected', wasConnected: true });
         } catch (e) {
           set({
             status: 'error',
             errorMsg: e instanceof Error ? e.message : 'Connection failed',
             api: null,
+            wasConnected: false,
           });
         }
       },
 
       disconnect() {
-        set({ status: 'idle', api: null, proxies: [], errorMsg: '' });
+        set({ status: 'idle', api: null, proxies: [], errorMsg: '', wasConnected: false });
       },
     }),
     {
@@ -58,6 +61,7 @@ export const useConnectionStore = create<ConnectionStore>()(
         apiBase: state.apiBase,
         apiSecret: state.apiSecret,
         configLabel: state.configLabel,
+        wasConnected: state.wasConnected,
       }),
     }
   )
